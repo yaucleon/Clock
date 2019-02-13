@@ -24,7 +24,7 @@ type Props = {};
 export default class Clock extends Component {
     constructor() {
         super();
-        this.state = {currentTime: null, currentMonth:null, currentDayOfWeek: null, currentHour: null, currentMinute: null, currentSecond: null}
+        this.state = {currentTime: null, currentMonth:null, currentDayOfWeek: null, currentHour: null, currentMinute: null, currentSecond: null, currentAMPM: null}
         this.daysArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         
     }
@@ -44,7 +44,7 @@ export default class Clock extends Component {
     let hour = new Date().getHours();
     let minutes = new Date().getMinutes();
     let seconds = new Date().getSeconds();
-    let am_pm = 'pm';
+    let am_pm = 'PM';
  
     if( minutes < 10 )
     {
@@ -68,10 +68,10 @@ export default class Clock extends Component {
  
     if( new Date().getHours() < 12 )
     {
-        am_pm = 'am';
+        am_pm = 'AM';
     }
  
-    this.setState({ currentTime: hour + ':' + minutes + ':' + seconds + ' ' + am_pm, currentHour: hour, currentMinute: minutes, currentSecond: seconds, currentMonth: month + 1  });
+    this.setState({ currentTime: hour + ':' + minutes , currentHour: hour, currentMinute: minutes, currentSecond: seconds, currentMonth: month + 1, currentAMPM: am_pm  });
     
     this.daysArray.map(( item, key ) =>
     {
@@ -124,15 +124,23 @@ export default class Clock extends Component {
 //        </View>
 //      </View>
         
-        <View style={{flex: 1, flexDirection:'column', alignItems:'center', justifyContent:'center', backgroundColor:'black'}}>
-        <CircularProgress ringColor={'#7fffd4'} radius={60} percent={(this.state.currentMonth / 12) * 100}/>
-        <CircularProgress ringColor={'red'} radius={80} percent={(this.state.currentDate / 31) * 100}/>
-        <CircularProgress ringColor={'#7b68ee'} radius={100} percent={(this.state.currentHour / 12) * 100}/>
-        <CircularProgress ringColor={'powderblue'} radius={120} percent={(this.state.currentMinute / 60) * 100}/>
-        <CircularProgress ringColor={'rebeccapurple'} radius={140} percent={(this.state.currentSecond / 60) * 100}/>
-        <Text style={{color:'white'}}>{this.state.currentDayOfWeek}</Text>
-        <Text style={{color:'white'}}>{this.state.currentTime}</Text>
+        <View style={{flex: 1, flexDirection:'column', alignItems:'center', justifyContent:'center', backgroundColor:'#4a4a4a'}}>
+        {/*<CircularProgress ringColor={'#7fffd4'} radius={60} percent={(this.state.currentMonth / 12) * 100}/>*/}
+        {/*<CircularProgress ringColor={'red'} radius={80} percent={(this.state.currentDate / 31) * 100}/>*/}
+        <CircularProgress ringColor={'black'} ringBgColor={'black'} radius={130} percent={0}/>
+        <CircularProgress ringColor={'#f55837'} radius={125}  percent={(this.state.currentMinute / 60) * 100}/>
+        <CircularProgress ringColor={'black'} ringBgColor={'black'}  radius={100} percent={0}/>
+        <CircularProgress ringColor={'#f5aa37'} radius={98} percent={(this.state.currentHour / 12) * 100}/>
+        <CircularProgress ringColor={'black'} ringBgColor={'black'} radius={50} percent={0} bgRingWidth={70}/>
+            {/*<CircularProgress ringColor={'rebeccapurple'} radius={140} percent={(this.state.currentSecond / 60) * 100}/>*/}
+        
+        <View style={{height:100, width:100, radius:100, color:'blue', alignItems:'center', justifyContent:'center'}}>
+        <Text style={{color:'white', fontSize:15, fontWeight:'bold'}}>{this.state.currentDayOfWeek}</Text>
+        <Text style={{color:'white', fontSize:40, fontWeight:'bold'}}>{this.state.currentTime}</Text>
+        <Text style={{color:'white', fontSize:20, fontWeight:'bold'}}>{this.state.currentAMPM}</Text>
         </View>
+        </View>
+        
         
         
     );
